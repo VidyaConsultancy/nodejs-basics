@@ -19,5 +19,8 @@
     "env"
   ],
   "author": "Arpit Jain",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
 }

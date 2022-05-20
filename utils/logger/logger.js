@@ -1,3 +1,5 @@
+const _ = require("lodash");
+
 const logMessage = (message, type = 'info') => {
     console.log(`${new Date().toISOString()} - [${type}] - ${message}`);
 }
