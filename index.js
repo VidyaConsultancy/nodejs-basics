@@ -1,28 +1,7 @@
-// function normalFun(cb) {
-//   const res = setTimeout(() => {
-//     const sum = 10 + 20;
-//     cb(sum);
-//   }, 1000);
-//   console.log(res);
-// }
+const logger = require("./utils/logger/logger");
+const greeter = require("./utils/logger/greeter");
+console.log(logger("Hello world")); // use of default export
+console.log(greeter.greeter()) // use of named export
 
-// normalFun(function (sum) {
-//   console.log(sum);
-// });
-
-console.time("settimeout");
-const setIntervalId = setTimeout(() => {
-  console.timeEnd("settimeout");
-  console.log(new Date().toISOString());
-}, 100);
-
-const promise = new Promise((resolve) => resolve('Hello'));
-promise.then(value => console.log(value));
-
-let sum = 0;
-console.time("sum");
-for (let index = 1; index < 900000000; index++) {
-  sum = sum + index;
-}
-console.log(sum);
-console.timeEnd("sum");
+// every js file in nodejs env is a module that uses either require function or module.exports or both
+// the require function returns the value of module.exports of the file provide in as parameter.
