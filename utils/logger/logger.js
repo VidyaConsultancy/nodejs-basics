@@ -10,3 +10,4 @@ module.exports = (message, type = "info") => {
 }; // default export
 // module.exports is equal to an empty object module.exports {}
 // module.exports.log = logMessage;
+// module.exports = { log: logMessage }

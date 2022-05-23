@@ -1,3 +1,3 @@
 const greeter = (name = 'Guest') => console.log(`Hey! ${name}`);
 
-module.exports.greeter = greeter;
+module.exports.greet = greeter;
