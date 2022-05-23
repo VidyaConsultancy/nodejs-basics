@@ -35,8 +35,7 @@ const requestHandler = (request, response) => {
           response.statusCode = 201;
           response.statusMessage = "Created";
           response.setHeader("Content-Type", "application/json");
-          response.write("User created");
-          response.end();
+          response.end(JSON.stringify({id: 1, name: "John Doe"}));
           break;
         case "PUT":
           response.write("Users updated");
