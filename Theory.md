@@ -5,7 +5,7 @@
 
 ### Request data
 - Url query params ?key1=value1&key2=value2
-- Url path params /users/:userId where :userId is dynamic part
+- Url path params /users/:userId/posts/:postId where :userId and :postId is dynamic part
 - Request Headers - creating custom headers, prefereably using x- as prefix for those headers
 - Body
     - form-data

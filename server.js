@@ -1,4 +1,6 @@
 const http = require("http");
+const e1 = require("./eventEmitter");
+require("./utils/logger/logger");
 
 // request => req. request is an object of type IncomingMessage
 // response => res. response is an object of type ServerResponse
@@ -28,6 +30,7 @@ const requestHandler = (request, response) => {
     case "/users":
       switch (method) {
         case "GET":
+          e1.emit("hey");
           response.write("Users list");
           response.end();
           break;
@@ -56,6 +59,7 @@ const requestHandler = (request, response) => {
       }
       break;
     default:
+      e1.emit('hello');
       response.write("Welcome! to the Nodejs server.");
       response.end();
       break;
