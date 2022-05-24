@@ -1,6 +1,32 @@
 const http = require("http");
 const e1 = require("./eventEmitter");
 require("./utils/logger/logger");
+const { stdout, stdin } = require("process");
+const crypto = require("crypto");
+const fs = require("fs");
+
+fs.open("./sample.txt", "a", (err, fd) => {
+  if (!err) {
+    fs.write(fd, "Some more content after the add", (err, written, str) => {
+      if (!err) {
+        console.log(written, str);
+        fs.close(fd, (err) => {
+          console.error(err);
+        });
+      }
+    });
+  }
+  console.log("After file opened");
+});
+console.log("Outside file open call");
+const key = Buffer.from(crypto.randomBytes(32));
+const iv = crypto.randomBytes(16);
+const aes = crypto.createCipheriv("aes-256-cbc", key, iv);
+
+stdin
+  .pipe(aes)
+  .on("end", (chunk) => console.info("info", chunk))
+  .pipe(stdout);
 
 // request => req. request is an object of type IncomingMessage
 // response => res. response is an object of type ServerResponse
@@ -13,18 +39,33 @@ const requestHandler = (request, response) => {
   const method = request.method;
   const url = request.url;
   const headers = request.headers;
-  console.log(headers);
+  // console.log(headers);
   const rawData = [];
   let data;
 
-  request.on("data", (chunk) => {
-    rawData.push(chunk);
+  fs.open("./sample.txt", "r", (err, fd) => {
+    if (!err) {
+      fs.read(fd, Buffer.from("arandomlongstring"), 0, "arandomlongstring".length, 0, (err, read, str) => {
+        if (!err) {
+          console.log('read data')
+          console.log(read, str.toString());
+          fs.close(fd, (err) => console.error(err));
+        }
+      });
+    }
+    console.log("After file opened", err);
   });
 
-  request.on("end", () => {
-    data = Buffer.concat(rawData);
-    console.log(data.toString());
-  })
+  // request.on("data", (chunk) => {
+  //   rawData.push(chunk);
+  // });
+
+  // request.on("end", () => {
+  //   data = Buffer.concat(rawData);
+  //   console.log(data.toString());
+  // })
+  request.pipe(stdout);
+  return request.pipe(response);
 
   switch (url) {
     case "/users":
@@ -38,7 +79,7 @@ const requestHandler = (request, response) => {
           response.statusCode = 201;
           response.statusMessage = "Created";
           response.setHeader("Content-Type", "application/json");
-          response.end(JSON.stringify({id: 1, name: "John Doe"}));
+          response.end(JSON.stringify({ id: 1, name: "John Doe" }));
           break;
         case "PUT":
           response.write("Users updated");
@@ -59,7 +100,7 @@ const requestHandler = (request, response) => {
       }
       break;
     default:
-      e1.emit('hello');
+      e1.emit("hello");
       response.write("Welcome! to the Nodejs server.");
       response.end();
       break;

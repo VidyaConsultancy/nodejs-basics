@@ -17,3 +17,13 @@
 - Body
 - Headers
 - Response info - HTTP version | HTTP status code | HTTP status message
+
+### Streams
+- Data => In Parts
+- Effective in large data transfer
+
+    #### Types
+    - Readable - request object, process stdin
+    - Writable - response object, process stdout
+    - Duplex - TCP Sockets
+    - Transform - cypto, zlip
